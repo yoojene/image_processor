@@ -48,7 +48,6 @@ const combineImageAndZip = async () => {
     for (const image of images) {
       if (image.endsWith(".jpg")) {
         const imageData = await fspromises.readFile(`images/output/${image}`);
-        console.log(imageData);
         img.file(image, imageData);
       }
     }
