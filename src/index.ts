@@ -1,6 +1,7 @@
 import sharp from "sharp";
 import fs from "fs";
 const fetch = require("node-fetch");
+const JSZip = require("jszip");
 
 const combineImage = async () => {
   const imageUrl =
@@ -31,4 +32,22 @@ const combineImage = async () => {
   }
 };
 
-combineImage();
+const zipImages = async () => {
+  const zip = new JSZip();
+
+  zip.file("output.jpg", fs.readFileSync("images/output/output.jpg"));
+
+  zip
+    .generateNodeStream({ type: "nodebuffer", streamfiles: true })
+    .pipe(fs.createWriteStream("images/output/output.zip"))
+    .on("finish", () => {
+      console.log("output.zip written");
+    });
+};
+
+const main = async () => {
+  await combineImage();
+  await zipImages();
+};
+
+main();
