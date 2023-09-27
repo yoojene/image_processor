@@ -43,7 +43,6 @@ const combineImageAndZip = async () => {
         ])
         .toBuffer();
       const fileLocation = path.join(workingDir, `output${idx}.jpg`);
-      console.log(fileLocation);
       await fspromises.writeFile(fileLocation, output);
     });
 
@@ -67,7 +66,6 @@ const combineImageAndZip = async () => {
       .generateNodeStream({ type: "nodebuffer", streamFiles: true })
       .pipe(fs.createWriteStream(path.join(workingDir, "output.zip")))
       .on("finish", async () => {
-        console.log("output.zip written");
         const finalZip = await fse.readFile(`${workingDir}output.zip`);
         const finalZipB64 = finalZip.toString("base64");
         return finalZipB64;
